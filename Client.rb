@@ -1,5 +1,5 @@
 class Client
-  def initialize
+  def initialize(name, time)
 
   end
 end

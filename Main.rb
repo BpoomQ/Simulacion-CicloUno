@@ -1,4 +1,4 @@
-require './Client'
+require './Simulation'
 class Main
   def initialize
 
