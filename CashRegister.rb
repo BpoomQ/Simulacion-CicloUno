@@ -14,6 +14,9 @@ class CashRegister
       changeState
     end
   end
+  def isEmpty
+    @state
+  end
   def changeState
     @state = !@state
   end
