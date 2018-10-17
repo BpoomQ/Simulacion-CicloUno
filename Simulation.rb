@@ -32,7 +32,7 @@ class Simulation
       customersArrive
       for i in (0..@cashRegisters.length)
         if(cashRegisters[i].isEmpty)
-          cashRegisters[i].reciveClient(cashRegisterRows[0])
+          cashRegisters[i].reciveClient(cashRegisterRows[0].shift)
         else
           cashRegisters[i].nextStep
         end
