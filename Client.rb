@@ -6,6 +6,9 @@ class Client
   def getTime
     @time
   end
+  def setTime
+    @time-=1
+  end
   def to_s
     " "+@name+" "
   end

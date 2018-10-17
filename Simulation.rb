@@ -2,6 +2,7 @@ require './Client'
 
 class Simulation
   def initialize(totalTime)
+    @letters=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
     @totalTime=totalTime
     @totalClientsNumber=0
     @newClientes=0
@@ -10,7 +11,7 @@ class Simulation
 
   def setCashRegisterNumber(cashRegisterNumber)
     @cashRegisterNumber=cashRegisterNumber
-    @cashRegisterRows=[[cashRegisterNumber]]
+    #@cashRegisterRows=[[cashRegisterNumber]]
   end
 
   def runSimulation
@@ -33,7 +34,9 @@ class Simulation
       end
     end
   end
-
+  def nextLetter
+    @letters[@currentTime % @letters.length]
+  end
   def searchEmptyRow
     min=@cashRegisterRows[0].length
     for i in (1..(@cashRegisterNumber-1))
