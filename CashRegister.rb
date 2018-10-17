@@ -8,9 +8,10 @@ class CashRegister
     changeState
   end
   def nextStep
-    if @currentClient.getTime>0
+    if (@currentClient.getTime>0)
       @currentClient.setTime
     else
+      @currentClient = "   "
       changeState
     end
   end
@@ -20,7 +21,10 @@ class CashRegister
   def changeState
     @state = !@state
   end
+  def getCurrentCliente
+    @currentClient
+  end
   def to_s
-    string="|C|\n"+client
+    string="|C|"
   end
 end
