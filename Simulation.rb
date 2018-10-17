@@ -25,6 +25,18 @@ class Simulation
     end
   end
 
+  def runSimulationUnique #UnicaFila
+    while (@currentTime < @totalTime)
+      customersArrive
+      for i in (0..@cashRegisters.length)
+        if(cashRegisters[i].isEmpty)
+          cashRegisters[i].reciveClient(cashRegisterRows[0])
+        end
+      end
+      @currentTime+=1
+    end
+  end
+
   def customersArrive
     if (@currentTime%4 == 0)
       newClientes=rand(0..5)
