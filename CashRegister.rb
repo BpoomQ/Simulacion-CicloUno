@@ -21,7 +21,7 @@ class CashRegister
   def changeState
     @state = !@state
   end
-  def getCurrentCliente
+  def getCurrentClient
     @currentClient
   end
   def to_s
