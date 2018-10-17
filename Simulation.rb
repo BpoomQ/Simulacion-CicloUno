@@ -18,7 +18,7 @@ class Simulation
       customersArrive
       for i in (0..@cashRegisters.length)
         if(cashRegisters[i].isEmpty)
-          cashRegisters[i].reciveClient(cashRegisterRows[i])
+          cashRegisters[i].reciveClient(cashRegisterRows[i].shift)
         end
       end
       @currentTime+=1
