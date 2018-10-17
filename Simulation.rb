@@ -74,4 +74,30 @@ class Simulation
       b
     end
   end
+
+  def showSimulation
+    message=""
+    for i in (0..@cashRegisters[i])
+      message+=@cashRegisters[i]
+    end
+    message+="\n"
+    for i in (0..@cashRegisters[i])
+      message+=@cashRegisters[i].getCurrentClient
+    end
+    if(@cashRegisterRows.length == 1)
+      for i in (0..@cashRegisterRows.length)
+        message+"\n    |"+@cashRegisterRows[i]+"|"
+      end
+    else
+      for i in (0..@cashRegisterRows.length)
+        message+="\n"
+        for j in (0..@cashRegisterRows[i].length)
+          if(@cashRegisterRows[j]!=nil)
+            message+="|"+@cashRegisterRows[j]+"|"
+          end
+        end
+      end
+    end
+  end
+  
 end
