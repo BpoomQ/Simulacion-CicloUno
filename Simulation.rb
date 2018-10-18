@@ -1,4 +1,5 @@
 require './Client'
+require './CashRegister'
 
 class Simulation
   def initialize(totalTime)
@@ -99,5 +100,5 @@ class Simulation
       end
     end
   end
-  
+
 end
