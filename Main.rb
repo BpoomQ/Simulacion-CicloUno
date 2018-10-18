@@ -14,21 +14,24 @@ class Main
 
   def input
     puts 'Por favor digite la cantidad de cajas a usar'
-    boxes = gets.chomp.to_i
+    @boxes = gets.chomp.to_i
     #puts 'Por favor digite el delta de tiempo'
     #deltaTime = gets.chomp.to_i
     puts 'Por favor digite la duracion de la simulacion'
     time = gets.chomp.to_i
     @similation = Simulation.new(time)
-    @simulation.setCashRegisterNumber(boxes)
   end
 
   def runOption(option)
-    input
+   
     case option
-    when 1
+    when 1 
+	  input
+	  @simulation.setCashRegisterNumber(@boxes,1)
       @simulation.runSimulationMultipleRows
     when 2
+	  input
+	  @simulation.setCashRegisterNumber(@boxes,@boxes)
       @simulation.runSimulationSingleRow
     when 3
       !exit

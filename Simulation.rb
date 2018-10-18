@@ -2,11 +2,13 @@ require './Client'
 require './CashRegister'
 
 class Simulation
-  def initialize(totalTime)
+def initialize
     @letters=['a','b','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-    @totalTime=totalTime
     @totalClients=0
     @currentTime=0
+  end
+  def initialize(totalTime)
+    @totalTime=totalTime
   end
 
   def setCashRegisterNumber(cashRegisterNumber,rows)
@@ -25,11 +27,15 @@ class Simulation
         end
       end
       @currentTime+=1
+	  showSimulation
     end
   end
 
   def runSimulationSingleRow
+	puts @currentTime
+	puts @totalTime
     while (@currentTime < @totalTime)
+		puts 'wenaaaas'
       customersArrive
       for i in (0..@cashRegisters.length)
         if(cashRegisters[i].isEmpty)
@@ -39,6 +45,7 @@ class Simulation
         end
       end
       @currentTime+=1
+	  showSimulation
     end
   end
 
@@ -47,7 +54,7 @@ class Simulation
       newClientes=rand(0..5)
       while(newClientes > 0)
         clientTime=rand(1..25)
-        @cashRegisterRows[searchEmptyRow]<<new Client(nextLetter,clientTime)
+        @cashRegisterRows[searchEmptyRow]<< Client.new(nextLetter,clientTime)
         @totalClients+=1
         newClientes-=1
       end
@@ -79,26 +86,28 @@ class Simulation
   def showSimulation
     message=""
     for i in (0..@cashRegisters[i])
-      message+=@cashRegisters[i]
+      message+="#{@cashRegisters[i]}"
     end
     message+="\n"
     for i in (0..@cashRegisters[i])
-      message+=@cashRegisters[i].getCurrentClient
+      message+="#{@cashRegisters[i].getCurrentClient}"
     end
     if(@cashRegisterRows.length == 1)
       for i in (0..@cashRegisterRows.length)
-        message+"\n    |"+@cashRegisterRows[i]+"|"
+		puts '1. entre 7u7'
+        message+"\n    |#{@cashRegisterRows[j]}|"
       end
     else
       for i in (0..@cashRegisterRows.length)
         message+="\n"
         for j in (0..@cashRegisterRows[i].length)
           if(@cashRegisterRows[j]!=nil)
-            message+="|"+@cashRegisterRows[j]+"|"
+            message+="|#{@cashRegisterRows[j]}|"
           end
         end
       end
     end
+	puts message
   end
 
 end

@@ -10,6 +10,6 @@ class Client
     @time-=1
   end
   def to_s
-    " "+@name+" "
+    " #{@name} "
   end
 end
