@@ -1,29 +1,33 @@
-require './Client'
++ require './Client'
 require './CashRegister'
 
 class Simulation
-def initialize
-    @letters=['a','b','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-    @totalClients=0
-    @currentTime=0
+
+  def initialize
+    @letters = ['a','b','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+    @totalClients = 0
+    @currentTime = 0
+    @totalTime = 0
   end
-  def initialize(totalTime)
+
+  def setTotalTime(totalTime)
     @totalTime=totalTime
   end
 
   def setCashRegisterNumber(cashRegisterNumber,rows)
     @cashRegisters= Array.new(cashRegisterNumber,CashRegister.new)
-    @cashRegisterRows=Array.new(rows)
+    @cashRegisterRows=Array.new(rows,Array.new())
   end
 
   def runSimulationMultipleRows
     while (@currentTime < @totalTime)
       customersArrive
-      for i in (0..@cashRegisters.length)
-        if(cashRegisters[i].isEmpty)
-          cashRegisters[i].reciveClient(cashRegisterRows[i].shift)
+      for i in (0..(@cashRegisters.count))
+        if(@cashRegisters[i].isEmpty)
+          #puts cashRegisters.map
+          @cashRegisters[i].reciveClient(@cashRegisterRows[i].shift)
         else
-          cashRegisters[i].nextStep
+          @cashRegisters[i].nextStep
         end
       end
       @currentTime+=1
@@ -32,16 +36,14 @@ def initialize
   end
 
   def runSimulationSingleRow
-	puts @currentTime
-	puts @totalTime
     while (@currentTime < @totalTime)
-		puts 'wenaaaas'
       customersArrive
       for i in (0..@cashRegisters.length)
-        if(cashRegisters[i].isEmpty)
-          cashRegisters[i].reciveClient(cashRegisterRows[0].shift)
+        #puts @cashRegisters[i].class
+        if(@cashRegisters[i].isEmpty)
+          @cashRegisters[i].reciveClient(@cashRegisterRows[0].shift)
         else
-          cashRegisters[i].nextStep
+          @cashRegisters[i].nextStep
         end
       end
       @currentTime+=1
@@ -54,7 +56,10 @@ def initialize
       newClientes=rand(0..5)
       while(newClientes > 0)
         clientTime=rand(1..25)
-        @cashRegisterRows[searchEmptyRow]<< Client.new(nextLetter,clientTime)
+        client = Client.new(nextLetter,clientTime)
+        puts searchEmptyRow
+        puts @cashRegisterRows[searchEmptyRow].length
+        @cashRegisterRows[searchEmptyRow].push(client)
         @totalClients+=1
         newClientes-=1
       end
@@ -68,7 +73,7 @@ def initialize
   def searchEmptyRow
     min=@cashRegisterRows[0].length
     i=1
-    while (i<cashRegisterRows.length)
+    while (i<@cashRegisterRows.length)
       min=minimum(min,@cashRegisterRows[i].length)
       i+=1
     end
