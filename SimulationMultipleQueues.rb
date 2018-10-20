@@ -76,7 +76,7 @@ class SimulationMultipleQueues
       puts showSimulation
       sleep(@deltaTime)
     end
-    puts "El promedio de atencion en las cajas fue: #{calculateTotalAverage}"
+    puts "El promedio de tiempo de atencion en las cajas fue: #{calculateTotalAverage}"
     puts "----------------\n"
   end
 
