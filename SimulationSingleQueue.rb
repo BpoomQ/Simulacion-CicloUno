@@ -40,9 +40,9 @@ class SimulationSingleQueue
   end
 
   def runSimulation
-    while (@currentTime < @totalTime)
+    while (@currentTime <= @totalTime)
       puts "----------------\n"
-      puts "Tiempo: #{@currentTime}"
+      puts "Tiempo: #{@currentTime}min"
       clientsArrive
       serve
       @currentTime+=1
