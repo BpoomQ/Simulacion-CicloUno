@@ -8,46 +8,49 @@ class Simulation
     @totalClients = 0
     @currentTime = 0
     @totalTime = 0
+    @typeSimulation = true #true == singleQueue | false == multipleQueues
   end
 
   def setTotalTime(totalTime)
     @totalTime=totalTime
   end
 
-  def setCashRegisterNumber(cashRegisterNumber,rows)
+  def setCashRegisterNumber(cashRegisterNumber,queues)
     @cashRegisters= Array.new(cashRegisterNumber,CashRegister.new)
-    @cashRegisterRows=Array.new(rows,Array.new())
+    @cashRegisterQueues=Array.new(queues,Array.new())
   end
 
-  def runSimulationMultipleRows
+  def runSimulationMultipleQueues
+    @typeSimulation = false
     while (@currentTime < @totalTime)
       customersArrive
       for i in (0..(@cashRegisters.count))
         if(@cashRegisters[i].isEmpty)
           #puts cashRegisters.map
-          @cashRegisters[i].reciveClient(@cashRegisterRows[i].shift)
+          @cashRegisters[i].reciveClient(@cashRegisterQueues[i].shift)
         else
           @cashRegisters[i].nextStep
         end
       end
       @currentTime+=1
-	  showSimulation
+#	  showSimulation
     end
   end
 
-  def runSimulationSingleRow
+  def runSimulationSingleQueue
+    @typeSimulation = true
     while (@currentTime < @totalTime)
       customersArrive
-      for i in (0..@cashRegisters.length)
-        #puts @cashRegisters[i].class
-        if(@cashRegisters[i].isEmpty)
-          @cashRegisters[i].reciveClient(@cashRegisterRows[0].shift)
+      for i in (0..(@cashRegisters.length-1))
+        break if (@cashRegisterQueues[0].length == 0)
+        if (@cashRegisters[i].isEmpty)
+          @cashRegisters[i].reciveClient(@cashRegisterQueues[0].shift)
         else
           @cashRegisters[i].nextStep
         end
       end
       @currentTime+=1
-	  showSimulation
+      puts showSimulation
     end
   end
 
@@ -57,9 +60,7 @@ class Simulation
       while(newClientes > 0)
         clientTime=rand(1..25)
         client = Client.new(nextLetter,clientTime)
-        puts searchEmptyRow
-        puts @cashRegisterRows[searchEmptyRow].length
-        @cashRegisterRows[searchEmptyRow].push(client)
+        @cashRegisterQueues[searchEmptyQueue].push(client)
         @totalClients+=1
         newClientes-=1
       end
@@ -70,49 +71,56 @@ class Simulation
     @letters[@totalClients % @letters.length]
   end
 
-  def searchEmptyRow
-    min=@cashRegisterRows[0].length
+  def searchEmptyQueue
+    poss=0
+    min=@cashRegisterQueues[0].length
     i=1
-    while (i<@cashRegisterRows.length)
-      min=minimum(min,@cashRegisterRows[i].length)
-      i+=1
+    while (i<@cashRegisterQueues.length)
+      if (isMinimum(@cashRegisterQueues[i].length,min))
+        min = @cashRegisterQueues[i].length
+        poss = i
+      end
+      i += 1
     end
-    min
+    poss
   end
 
-  def minimum(a,b)
+  def isMinimum(a,b)
     if (a < b)
-      a
+      true
     else
-      b
+      false
     end
   end
 
   def showSimulation
-    message=""
-    for i in (0..@cashRegisters[i])
-      message+="#{@cashRegisters[i]}"
-    end
-    message+="\n"
-    for i in (0..@cashRegisters[i])
-      message+="#{@cashRegisters[i].getCurrentClient}"
-    end
-    if(@cashRegisterRows.length == 1)
-      for i in (0..@cashRegisterRows.length)
-		puts '1. entre 7u7'
-        message+"\n    |#{@cashRegisterRows[j]}|"
+    if (@typeSimulation)
+      blank=" "
+      i=0
+      message=""
+      while(i<@cashRegisters.length)
+        message+="#{@cashRegisters[i]}"
+        i+=1
+      end
+      message+="\n"
+      i=0
+      while(i<@cashRegisters.length)
+        if(@cashRegisters[i].isEmpty)
+          message+="   "
+        else
+          message+="#{@cashRegisters[i].getCurrentClient}"
+        end
+        i+=1
+      end
+      i=0
+      while(i<@cashRegisterQueues[0].length)
+        message+="\n#{blank}|#{@cashRegisterQueues[0][i]}|"
+        i+=1
       end
     else
-      for i in (0..@cashRegisterRows.length)
-        message+="\n"
-        for j in (0..@cashRegisterRows[i].length)
-          if(@cashRegisterRows[j]!=nil)
-            message+="|#{@cashRegisterRows[j]}|"
-          end
-        end
-      end
+
     end
-	puts message
+    message
   end
 
 end

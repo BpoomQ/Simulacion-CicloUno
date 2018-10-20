@@ -1,7 +1,7 @@
 class CashRegister
   def initialize
     @state = true #true = free
-    @currentClient = "   "
+    @currentClient = nil
   end
   def reciveClient(client)
     @currentClient = client
@@ -10,8 +10,12 @@ class CashRegister
   def nextStep
     if (@currentClient.getTime>0)
       @currentClient.setTime
+      if (@currentClient.getTime == 0)
+        changeState
+        @currentClient = nil
+      end
     else
-      @currentClient = "   "
+      @currentClient = nil
       changeState
     end
   end
