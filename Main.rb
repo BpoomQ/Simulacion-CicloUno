@@ -2,7 +2,7 @@ require './Simulation'
 
 class Main
   def initialize
-    @simulation = Simulation.new
+    #@simulation = Simulation.new toca arreglar esto porque me manda error :''v
   end
 
   def showMenu
@@ -14,32 +14,35 @@ class Main
 
   def validateNumber(number)
     if !number.is_a? Numeric
-      raise TypeError, "El valor #{number} no es un número"
+       puts 'Valor(es) no aceptado(s). Intente nuevamente'
       return true
     end
-  end
+  end 
 
 
   def input
     puts 'Por favor digite la cantidad de cajas a usar'
-    @boxes = gets.chomp.to_i
-    #deltaTime = gets.chomp.to_i
+    @boxes = gets.chomp
     #puts 'Por favor digite el delta de tiempo'
+    #deltaTime = gets.chomp.to_i
     puts 'Por favor digite la duracion de la simulacion'
-    time = gets.chomp.to_i
-    @simulation.setTotalTime(time)
+    time = gets.chomp
+    if (validateNumber(@boxes) || validateNumber(time))
+      input
+    end
+    @similation = Simulation.new(time.to_i)
   end
 
   def runOption(option)
     case option
     when 1
-  	  input
-  	  @simulation.setCashRegisterNumber(@boxes,1)
-      @simulation.runSimulationSingleRow
-    when 2
-  	  input
-  	  @simulation.setCashRegisterNumber(@boxes,@boxes)
+	  input
+	  @simulation.setCashRegisterNumber(@boxes.to_i,1)
       @simulation.runSimulationMultipleRows
+    when 2
+	  input
+	  @simulation.setCashRegisterNumber(@boxes.to_i,@boxes.to_i)
+      @simulation.runSimulationSingleRow
     when 3
       !exit
     else
