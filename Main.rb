@@ -10,34 +10,34 @@ class Main
     puts "\n1.Simulador de fila unitaria\n2.Simulador de multifilas\n3.Salir\nDigite la opcion"
     option = gets.chomp.to_i
     runOption(option)
+    showMenu
   end
 
-  def validateNumber(number)
-    if !number.is_a? Numeric
-      puts 'Valor no aceptado. Intente nuevamente'
-      return false
-    else
-      return true
-    end
-  end
+ # def validateNumber(number)
+  #  if !number.is_a? Numeric
+   #   puts 'Valor no aceptado. Intente nuevamente'
+    #  return false
+    #else
+     # return true
+    #end
+  #end
 
 
   def input
     #loop do
-      puts 'Por favor digite la cantidad de cajas a usar'
-      @boxes = gets.chomp
+    puts 'Por favor digite la cantidad de cajas a usar'
+    @boxes = gets.chomp.to_i
       #break if validateNumber(@boxes)
     #end
-    @boxes=@boxes.to_i
     #loop do
-      puts 'Por favor digite la duracion de la simulacion'
-      @time = gets.chomp
+    puts 'Por favor digite la duracion de la simulacion'
+    @time = gets.chomp.to_i
       #break if validateNumber(time)
     #end
-    @time=@time.to_i
+    puts 'Por favor digite el delta de tiempo'
+    deltaTime = gets.chomp.to_i
     @simulation.setTotalTime(@time)
-    #puts 'Por favor digite el delta de tiempo'
-    #deltaTime = gets.chomp.to_i
+    
   end
 
   def runOption(option)
@@ -45,11 +45,11 @@ class Main
     when 1
       input
       @simulation.setCashRegisterNumber(@boxes,1)
-      @simulation.runSimulationMultipleRows
+      @simulation.runSimulationSingleQueue
     when 2
       input
       @simulation.setCashRegisterNumber(@boxes,@boxes)
-      @simulation.runSimulationSingleRow
+      @simulation.runSimulationQueues
     when 3
       !exit
     else
