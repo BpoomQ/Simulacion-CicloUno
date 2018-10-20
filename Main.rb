@@ -1,8 +1,8 @@
-require './Simulation'
+require './SimulationMultipleQueues'
+require './SimulationSingleQueue'
 
 class Main
   def initialize
-    @simulation = Simulation.new
   end
 
   def showMenu
@@ -25,31 +25,42 @@ class Main
 
   def input
     #loop do
-    puts 'Por favor digite la cantidad de cajas a usar'
-    @boxes = gets.chomp.to_i
+    @boxes = 0
+    while ((@boxes.class == Integer) && @boxes <= 0)
+      puts 'Por favor digite la cantidad de cajas a usar'
+      @boxes = gets.chomp.to_i
+    end
       #break if validateNumber(@boxes)
     #end
     #loop do
-    puts 'Por favor digite la duracion de la simulacion'
-    @time = gets.chomp.to_i
+    @time=0
+    while((@time.class == Integer) && @time<=0)
+      puts 'Por favor digite la duracion de la simulacion'
+      @time = gets.chomp.to_i
+    end
       #break if validateNumber(time)
     #end
-    puts 'Por favor digite el delta de tiempo'
-    deltaTime = gets.chomp.to_i
-    @simulation.setTotalTime(@time)
-    
+    @deltaTime = ""
+    while((@deltaTime.class != Integer) || (@deltaTime < 0 || 20 < @deltaTime))
+      puts 'Por favor digite el delta de tiempo'
+      @deltaTime = gets.chomp
+      temp=@deltaTime.to_i
+      if(temp.to_s == @deltaTime)
+        @deltaTime=@deltaTime.to_i
+      end
+    end
   end
 
   def runOption(option)
     case option
     when 1
       input
-      @simulation.setCashRegisterNumber(@boxes,1)
-      @simulation.runSimulationSingleQueue
+      @Ssimulation = SimulationSingleQueue.new(@boxes,@time,@deltaTime)
+      @Ssimulation.runSimulation
     when 2
       input
-      @simulation.setCashRegisterNumber(@boxes,@boxes)
-      @simulation.runSimulationQueues
+      @Ssimulation = SimulationMultipleQueues.new(@boxes,@time,@deltaTime)
+      @Ssimulation.runSimulation
     when 3
       !exit
     else
