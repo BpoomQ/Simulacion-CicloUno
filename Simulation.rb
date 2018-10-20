@@ -1,4 +1,4 @@
-+ require './Client'
+require './Client'
 require './CashRegister'
 
 class Simulation
