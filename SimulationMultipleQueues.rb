@@ -4,13 +4,21 @@ require './CashRegister'
 class SimulationMultipleQueues
   def initialize(cashRegisters, totalTime, deltaTime)
     @cashRegisters=Array.new(cashRegisters)
-    for i in (0..(cashRegisters-1))
-      @cashRegisters[i] = CashRegister.new
-    end
+    initializeCashRegisters(cashRegisters)
     @totalTime=totalTime
     @deltaTime=deltaTime
     @currentTime = 0
     @clientsQueues=Array.new(@cashRegisters.length)
+    initializeClientsQueues(@clientsQueues)
+  end
+
+  def initializeCashRegisters(cashRegisters)
+    for i in (0..(cashRegisters-1))
+      @cashRegisters[i] = CashRegister.new
+    end
+  end
+
+  def initializeClientsQueues(clientsQueues)
     for i in (0..(@clientsQueues.length-1))
       @clientsQueues[i] = []
     end
