@@ -12,6 +12,14 @@ class Main
     runOption(option)
   end
 
+  def validateNumber(number)
+    if !number.is_a? Numeric
+      raise TypeError, "El valor #{number} no es un número"
+      return true
+    end
+  end
+
+
   def input
     puts 'Por favor digite la cantidad de cajas a usar'
     @boxes = gets.chomp.to_i
