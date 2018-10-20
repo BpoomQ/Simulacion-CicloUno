@@ -1,33 +1,43 @@
+require './Client'
+
 class CashRegister
+
   def initialize
-    @state = true #true = free
+    @avable = true
     @currentClient = nil
+    @clientsServed = 0
+    @spentTime = 0
+    @average = 0
   end
+
   def reciveClient(client)
     @currentClient = client
-    changeState
+    @avable = false
+    @spentTime = client.getTime
+    @average += @spentTime
+    @clientsServed += 1
   end
-  def nextStep
-    if (@currentClient.getTime>0)
-      @currentClient.setTime
-      if (@currentClient.getTime == 0)
-        changeState
-        @currentClient = nil
-      end
+
+  def serveClient
+    if (@spentTime > 0)
+      @spentTime -= 1
     else
-      @currentClient = nil
-      changeState
+      @avable = true
     end
   end
-  def isEmpty
-    @state
-  end
-  def changeState
-    @state = !@state
-  end
+
   def getCurrentClient
     @currentClient
   end
+
+  def isAvable
+    @avable
+  end
+
+  def getAverage
+    @average
+  end
+
   def to_s
     string="|C|"
   end
