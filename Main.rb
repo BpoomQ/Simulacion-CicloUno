@@ -14,22 +14,26 @@ class Main
 
   def validateNumber(number)
     if !number.is_a? Numeric
-       puts 'Valor(es) no aceptado(s). Intente nuevamente'
-      return true
+      puts 'Valor no aceptado. Intente nuevamente'
+      return false
     end
   end 
 
 
   def input
-    puts 'Por favor digite la cantidad de cajas a usar'
-    @boxes = gets.chomp
+    loop do
+      puts 'Por favor digite la cantidad de cajas a usar'
+          @boxes = gets.chomp
+      break if validateNumber(@boxes)
+    end
+
+    loop do
+      puts 'Por favor digite la duracion de la simulacion'
+        time = gets.chomp
+      break if validateNumber(time)
+    end
     #puts 'Por favor digite el delta de tiempo'
     #deltaTime = gets.chomp.to_i
-    puts 'Por favor digite la duracion de la simulacion'
-    time = gets.chomp
-    if (validateNumber(@boxes) || validateNumber(time))
-      input
-    end
     @similation = Simulation.new(time.to_i)
   end
 
